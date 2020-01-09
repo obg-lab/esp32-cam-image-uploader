@@ -31,7 +31,9 @@ ADD .env.example /app/.env
 
 WORKDIR /app
 
-RUN chmod -R 777 storage
+RUN mkdir -p storage/app/images && \
+    chmod -R 775 storage && \
+    ln -s /app/storage/app/images /app/public/images
 
 EXPOSE 8000
 
