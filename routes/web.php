@@ -14,8 +14,13 @@
 use App\Image;
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    $data = [
+        'images' => Image::all(),
+    ];
+
+    return view('index', $data);
 });
+
 $router->get('/files', function () {
     return response()->json(Image::all(), 200);
 });
