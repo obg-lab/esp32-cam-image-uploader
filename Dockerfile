@@ -1,29 +1,13 @@
-FROM alpine:3.7
+FROM php:7.2-fpm-alpine
+
+# lumen packages
+RUN docker-php-ext-install mbstring tokenizer mysqli pdo_mysql
 
 ENV PORT 8000
 
-RUN apk --no-cache add \
-    php7 \
-    php7-fpm \
-    php7-pdo \
-    php7-mbstring \
-    php7-xml \
-    php7-openssl \
-    php7-json \
-    php7-phar \
-    php7-zip \
-    php7-dom \
-    php7-session \
-    php7-zlib && \
-    php7 -r "copy('http://getcomposer.org/installer', 'composer-setup.php');" && \
-    php7 composer-setup.php --install-dir=/usr/bin --filename=composer && \
-    php7 -r "unlink('composer-setup.php');" && \
-    ln -sf /usr/bin/php7 /usr/bin/php && \
-    ln -s /etc/php7/php.ini /etc/php7/conf.d/php.ini
-
-RUN set -x \
-    addgroup -g 82 -S www-data \
-    adduser -u 82 -D -S -G www-data www-data
+RUN php -r "copy('http://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --install-dir=/usr/bin --filename=composer && \
+    php -r "unlink('composer-setup.php');"
 
 COPY . /app
 
@@ -31,9 +15,9 @@ ADD .env.example /app/.env
 
 WORKDIR /app
 
-RUN mkdir -p storage/app/images && \
-    chmod -R 775 storage && \
-    ln -s /app/storage/app/images /app/public/images
+RUN mkdir -p /app/public/uploads && \
+    chmod -R 775 /app/storage && \
+    chmod -R 775 /app/public/uploads
 
 EXPOSE 8000
 
