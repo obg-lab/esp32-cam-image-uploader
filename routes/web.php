@@ -25,4 +25,12 @@ $router->get('/files', function () {
     return response()->json(Image::all(), 200);
 });
 
-$router->post('/upload', 'UploadController@upload');
+
+
+$router->post(
+    '/upload',
+    [
+        'middleware' => 'upload',
+        'uses' => 'UploadController@upload'
+    ]
+);
