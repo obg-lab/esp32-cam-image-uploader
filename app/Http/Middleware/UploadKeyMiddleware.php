@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class ExampleMiddleware
+class UploadKeyMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,6 +15,10 @@ class ExampleMiddleware
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if ($request->header('UPLOAD_KEY') == env('UPLOAD_KEY')) {
+            return $next($request);
+        }
+
+        return response('Unauthorized.', 401);
     }
 }
