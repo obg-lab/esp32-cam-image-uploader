@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
+use App\Image;
+
 class UploadController extends Controller
 {
     /**
@@ -20,13 +22,23 @@ class UploadController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = storage_path('app/images');
+
+            $name = time() . '.' . strtolower($image->getClientOriginalExtension());
+
+            $destinationPath = storage_path('../public/uploads');
+
             $image->move($destinationPath, $name);
+
+            $url = URL::asset('uploads/' . $name);
+
+            $newImage = new Image();
+            $newImage->name = $name;
+            $newImage->url = $url;
+            $newImage->save();
 
             return response()->json([
                 'message' => 'image is uploaded',
-                'url' => URL::asset($destinationPath . $name)
+                'data' => $newImage
             ]);
         }
 
