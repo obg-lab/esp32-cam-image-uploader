@@ -11,8 +11,13 @@
 |
 */
 
+use App\Image;
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+$router->get('/files', function () {
+    return response()->json(Image::all(), 200);
 });
 
 $router->post('/upload', 'UploadController@upload');
