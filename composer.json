@@ -1,7 +1,8 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "egermano/esp32-cam-image-uploader",
+    "description": "API to upload images from ESP32-CAM",
+    "keywords": ["api", "laravel", "lumen", "esp32", "esp32-cam"],
+    "version": "1.0.0",
     "license": "MIT",
     "type": "project",
     "require": {
