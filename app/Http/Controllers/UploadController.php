@@ -25,7 +25,7 @@ class UploadController extends Controller
 
             $name = time() . '.' . strtolower($image->getClientOriginalExtension());
 
-            $destinationPath = storage_path('../public/uploads');
+            $destinationPath = storage_path(env('UPLOAD_PATH'));
 
             $image->move($destinationPath, $name);
 
